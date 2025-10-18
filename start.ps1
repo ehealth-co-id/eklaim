@@ -12,11 +12,11 @@ try {
     $ErrorActionPreference = $OldErrorActionPreference
 }
 
-if (! $version -eq "5.9.2") {
+if (! $version -eq "5.10.5") {
     Write-Host "Patching..."
-    ((Get-FileHash patch.exe).Hash -eq '4E599F199CA8C7A2118424FA4A348A204C7FA0C4DBA08D63FDBDC99797A7E127') -or $(exit 1)
+    ((Get-FileHash patch.exe).Hash -eq '73DBE2145F91FAD75A29C0273D7DFCFECF45B0AF4C778EC71ECAD6CFF21E076F') -or $(exit 1)
     Start-Process -FilePath 'patch.exe' -ArgumentList @('/VERYSILENT', '/SP-', '/NORESTART', '/SUPPRESSMSGBOXES') -Wait
-    Set-Content c:\E-Klaim\version.txt '5.9.2' -NoNewline;
+    Set-Content c:\E-Klaim\version.txt '5.10.5' -NoNewline;
     Write-Host "Patching done."
 }
 
