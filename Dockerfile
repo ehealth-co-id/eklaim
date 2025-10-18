@@ -13,5 +13,5 @@ RUN ($ErrorActionPreference = 'Stop'); \
     (Set-Content c:\E-Klaim\version.txt '5.10.5' -NoNewline)
 COPY *.ps1 C:/
 COPY ioncube_loader_win_5.6.dll C:/xampp/php/ext/ioncube_loader_win_5.6.dll
-CMD powershell C:\start.ps1
+ENTRYPOINT "powershell C:\start.ps1"
 EXPOSE 80
