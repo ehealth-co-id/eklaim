@@ -7,11 +7,11 @@ RUN ($ErrorActionPreference = 'Stop'); \
     (Start-Process -FilePath 'setup.exe' -ArgumentList @('/VERYSILENT', '/SP-', '/NORESTART', '/SUPPRESSMSGBOXES') -Wait); \
     (Remove-Item setup.exe);
 RUN ($ErrorActionPreference = 'Stop'); \
-    ((New-Object net.webclient).Downloadfile('https://inacbg.kemkes.go.id/DL/Patch_E-Klaim_INA-CBG_5.9.3.202509181035.exe', 'patch.exe')); \
-    ((Get-FileHash patch.exe).Hash -eq '96D23D14105C44502EAEBD10E245D54168ED2D82DD471078F4F7A1FBBE31F406') -or $(exit 1); \
+    ((New-Object net.webclient).Downloadfile('https://inacbg.kemkes.go.id/DL/Patch_E-Klaim_INA-CBG_5.10.6.202601010630.exe', 'patch.exe')); \
+    ((Get-FileHash patch.exe).Hash -eq '52DF4FBFC0C8BEB5249C1A518AD2DE99A4841A7BA4410ECE918F04383211BCCD') -or $(exit 1); \
     (Start-Process -FilePath 'patch.exe' -ArgumentList @('/VERYSILENT', '/SP-', '/NORESTART', '/SUPPRESSMSGBOXES') -Wait); \
-    (Set-Content c:\E-Klaim\version.txt '5.9.3' -NoNewline)
+    (Set-Content c:\E-Klaim\version.txt '5.10.6' -NoNewline)
 COPY *.ps1 C:/
 COPY ioncube_loader_win_5.6.dll C:/xampp/php/ext/ioncube_loader_win_5.6.dll
-CMD powershell C:\start.ps1
+ENTRYPOINT "powershell C:\start.ps1"
 EXPOSE 80

@@ -5,18 +5,21 @@ Set-WinUserLanguageList id-ID -Force
 $OldErrorActionPreference = $ErrorActionPreference
 try {
     $ErrorActionPreference = 'SilentlyContinue'
-    $version = Get-Content -Path "C:\E-Klaim\version.txt" -Raw
+    $version = (Get-Content -Path "C:\E-Klaim\version.txt" -Raw).Trim()
 } catch {
     $version = ""
 } finally {
     $ErrorActionPreference = $OldErrorActionPreference
 }
 
-if (! $version -eq "5.9.2") {
+Write-Host "Current version: $version"
+Write-Host "Expected version: 5.10.6"
+
+if ($version -ne "5.10.6") {
     Write-Host "Patching..."
-    ((Get-FileHash patch.exe).Hash -eq '4E599F199CA8C7A2118424FA4A348A204C7FA0C4DBA08D63FDBDC99797A7E127') -or $(exit 1)
+    ((Get-FileHash patch.exe).Hash -eq '52DF4FBFC0C8BEB5249C1A518AD2DE99A4841A7BA4410ECE918F04383211BCCD') -or $(exit 1)
     Start-Process -FilePath 'patch.exe' -ArgumentList @('/VERYSILENT', '/SP-', '/NORESTART', '/SUPPRESSMSGBOXES') -Wait
-    Set-Content c:\E-Klaim\version.txt '5.9.2' -NoNewline;
+    Set-Content c:\E-Klaim\version.txt '5.10.6' -NoNewline;
     Write-Host "Patching done."
 }
 
