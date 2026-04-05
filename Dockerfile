@@ -7,8 +7,8 @@ RUN ($ErrorActionPreference = 'Stop'); \
     (Start-Process -FilePath 'setup.exe' -ArgumentList @('/VERYSILENT', '/SP-', '/NORESTART', '/SUPPRESSMSGBOXES') -Wait); \
     (Remove-Item setup.exe);
 RUN ($ErrorActionPreference = 'Stop'); \
-    ((New-Object net.webclient).Downloadfile('https://inacbg.kemkes.go.id/DL/Patch_E-Klaim_INA-CBG_5.10.6.202601010630.exe', 'patch.exe')); \
-    ((Get-FileHash patch.exe).Hash -eq '52DF4FBFC0C8BEB5249C1A518AD2DE99A4841A7BA4410ECE918F04383211BCCD') -or $(exit 1); \
+    ((New-Object net.webclient).Downloadfile('https://inacbg.kemkes.go.id/DL/Patch_E-Klaim_INA-CBG_5.10.7.202603311031.exe', 'patch.exe')); \
+    ((Get-FileHash patch.exe).Hash -eq 'F2881FCEA3470C2B839CA10CEF26F543C425909D78A6DDBD4D67C91EE8A694A3') -or $(exit 1); \
     (Start-Process -FilePath 'patch.exe' -ArgumentList @('/VERYSILENT', '/SP-', '/NORESTART', '/SUPPRESSMSGBOXES') -Wait); \
     (Set-Content c:\E-Klaim\version.txt '5.10.6' -NoNewline)
 COPY *.ps1 C:/
