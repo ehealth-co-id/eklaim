@@ -35,6 +35,7 @@ Dockerized [E-Klaim INA-CBG](https://inacbg.kemkes.go.id/) on Windows Server Cor
 | `Dockerfile:10` | URL: `5.10.6.202601010630` → `5.10.7.202603311031` |
 | `Dockerfile:11` | Hash: `52DF4BFB...` → `F2881FCEA...` |
 | `Dockerfile:13` | Version: `5.10.6` → `5.10.7` |
+| `Dockerfile:13` | Version: `5.10.6` → `5.10.7` |
 | `start.ps1:16` | Expected version: `5.10.6` → `5.10.7` |
 | `start.ps1:18` | Comparison: `5.10.6` → `5.10.7` |
 | `start.ps1:20` | Hash: `52DF4BFB...` → `F2881FCEA...` |
