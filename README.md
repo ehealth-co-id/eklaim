@@ -27,3 +27,15 @@ Dockerized [E-Klaim INA-CBG](https://inacbg.kemkes.go.id/) on Windows Server Cor
    ```
 
    GitHub Actions auto-builds the new image to `ghcr.io/ehealth-co-id/eklaim:latest`.
+
+## Example: Upgrading from 5.10.6 to 5.10.7
+
+| File | Change |
+|------|--------|
+| `Dockerfile:10` | URL: `5.10.6.202601010630` → `5.10.7.202603311031` |
+| `Dockerfile:11` | Hash: `52DF4BFB...` → `F2881FCEA...` |
+| `Dockerfile:13` | Version: `5.10.6` → `5.10.7` |
+| `start.ps1:16` | Expected version: `5.10.6` → `5.10.7` |
+| `start.ps1:18` | Comparison: `5.10.6` → `5.10.7` |
+| `start.ps1:20` | Hash: `52DF4BFB...` → `F2881FCEA...` |
+| `start.ps1:22` | Version: `5.10.6` → `5.10.7` |
