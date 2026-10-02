@@ -13,13 +13,13 @@ try {
 }
 
 Write-Host "Current version: $version"
-Write-Host "Expected version: 5.10.8"
+Write-Host "Expected version: 5.10.9"
 
-if ($version -ne "5.10.8") {
+if ($version -ne "5.10.9") {
     Write-Host "Patching..."
-    ((Get-FileHash patch.exe).Hash -eq 'AB47D90931FDB20D65A535D11675BA2F7C2C02D59B4BCAE573316CDF11D01E94') -or $(exit 1)
+    ((Get-FileHash patch.exe).Hash -eq '4115E693252DE31071905708D1D0C911E7833C881E4F873CFF2889855FB56AFA') -or $(exit 1)
     Start-Process -FilePath 'patch.exe' -ArgumentList @('/VERYSILENT', '/SP-', '/NORESTART', '/SUPPRESSMSGBOXES') -Wait
-    Set-Content c:\E-Klaim\version.txt '5.10.8' -NoNewline;
+    Set-Content c:\E-Klaim\version.txt '5.10.9' -NoNewline;
     Write-Host "Patching done."
 }
 

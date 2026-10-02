@@ -9,10 +9,10 @@ RUN ($ErrorActionPreference = 'Stop'); \
     (Start-Process -FilePath 'setup.exe' -ArgumentList @('/VERYSILENT', '/SP-', '/NORESTART', '/SUPPRESSMSGBOXES') -Wait); \
     (Remove-Item setup.exe);
 RUN ($ErrorActionPreference = 'Stop'); \
-    ((New-Object net.webclient).Downloadfile('https://inacbg.kemkes.go.id/DL/Patch_E-Klaim_INA-CBG_5.10.8.202606251251.exe', 'patch.exe')); \
-    ((Get-FileHash patch.exe).Hash -eq 'AB47D90931FDB20D65A535D11675BA2F7C2C02D59B4BCAE573316CDF11D01E94') -or $(Write-Error 'Hash mismatch for patch.exe'; exit 1); \
+    ((New-Object net.webclient).Downloadfile('https://inacbg.kemkes.go.id/DL/Patch_E-Klaim_INA-CBG_5.10.9.202609291001.exe', 'patch.exe')); \
+    ((Get-FileHash patch.exe).Hash -eq '4115E693252DE31071905708D1D0C911E7833C881E4F873CFF2889855FB56AFA') -or $(Write-Error 'Hash mismatch for patch.exe'; exit 1); \
     (Start-Process -FilePath 'patch.exe' -ArgumentList @('/VERYSILENT', '/SP-', '/NORESTART', '/SUPPRESSMSGBOXES') -Wait); \
-    (Set-Content c:\E-Klaim\version.txt '5.10.8' -NoNewline)
+    (Set-Content c:\E-Klaim\version.txt '5.10.9' -NoNewline)
 COPY *.ps1 C:/
 COPY ioncube_loader_win_5.6.dll C:/xampp/php/ext/ioncube_loader_win_5.6.dll
 ENTRYPOINT "powershell C:\start.ps1"
