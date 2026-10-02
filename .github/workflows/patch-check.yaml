@@ -1,0 +1,46 @@
+name: Check for new E-Klaim patch
+
+permissions:
+  contents: write
+  pull-requests: write
+
+on:
+  schedule:
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bump patch if a newer one is published
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          base=https://inacbg.kemkes.go.id
+          new=$(curl -fsSL "$base/index.php?XP_view=1&page=download" | grep -oE 'Patch_E-Klaim_INA-CBG_[0-9.]+\.exe' | sort -uV | tail -1)
+          [ -n "$new" ] || { echo "no patch link found"; exit 1; }
+          old=$(grep -oE 'Patch_E-Klaim_INA-CBG_[0-9.]+\.exe' Dockerfile | head -1)
+          [ "$new" != "$old" ] || { echo "up to date: $old"; exit 0; }
+
+          oldver=$(echo "$old" | grep -oE '_[0-9]+\.[0-9]+\.[0-9]+\.' | tr -d '_' | sed 's/\.$//')
+          newver=$(echo "$new" | grep -oE '_[0-9]+\.[0-9]+\.[0-9]+\.' | tr -d '_' | sed 's/\.$//')
+          oldhash=$(grep -oE "'[0-9A-F]{64}'" start.ps1 | head -1 | tr -d "'")
+
+          curl -fsSL -o patch.exe "$base/DL/$new"
+          newhash=$(sha256sum patch.exe | cut -d' ' -f1 | tr a-f A-F)
+          rm patch.exe
+
+          sed -i "s/$old/$new/; s/$oldhash/$newhash/; s/'$oldver'/'$newver'/" Dockerfile
+          sed -i "s/$oldhash/$newhash/; s/: $oldver\"/: $newver\"/; s/\"$oldver\"/\"$newver\"/; s/'$oldver'/'$newver'/" start.ps1
+
+          branch="patch-$newver"
+          git switch -c "$branch"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "patch $newver"
+          git push -f origin "$branch"
+          gh pr create --base master --head "$branch" --title "patch $newver" \
+            --body "Automated: $old -> $new, SHA256 \`$newhash\`." || echo "PR already exists"
